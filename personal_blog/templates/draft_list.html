@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="row">
+    <div class="col">
+      {% for post in posts %}
+        <div class="post">
+          <h1>
+            <a href="{% url 'draft-detail' post.pk %}"
+               class="text-decoration-none fst-italic">{{ post.title }}</a>
+          </h1>
+          <img src="{{ post.featured_image.url }}"
+             alt="{{ post.title }}"
+             width="600px"
+             height="350px" />
+          <div class="date author">@{{ post.author.username }} | {{ post.category.name|title }}
+          Tags: {{ post.tag.all|join:", " }}</div>
+          <p>
+            {{ post.content|striptags|truncatechars:200 }}
+            <a href="{% url 'draft-detail' post.pk %}">View more</a>
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Personal Blog</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+
+  <!-- Google Icons -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+  />
+
+  <!-- Custom CSS -->
+  <link href="{% static 'css/blog.css' %}" rel="stylesheet" />
+</head>
+
+<body class="bg-light">
+
+  <!-- HEADER / NAVBAR -->
+  <header class="sticky-top shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <strong>Personal Blog</strong>
+      </a>
+
+      <div class="ms-auto d-flex gap-2">
+
+        {% if request.user.is_authenticated %}
+          
+
+          <a href="{% url 'post-create' %}" class="btn btn-outline-light btn-sm">
+            <span class="material-symbols-outlined">add</span>
+          </a>
+
+          <a href="{% url 'draft-list' %}" class="btn btn-outline-light btn-sm">
+            <span class="material-symbols-outlined">draft</span>
+          </a>
+
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-outline-danger btn-sm">
+              <span class="material-symbols-outlined">logout</span>
+            </button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn btn-primary btn-sm">
+            Login
+          </a>
+        {% endif %}
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT (FULL-WIDTH RESPONSIVE) -->
+  <main class="container-fluid my-5 px-4">
+    <div class="row justify-content-center">
+      <!-- Use col-xxl-10 col-xl-11 col-lg-12 for readable width -->
+      <div class="col-xxl-10 col-xl-11 col-lg-12 col-12">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+    <small>© {{ now|date:"Y" }} Personal Blog. All rights reserved.</small>
+  </footer>
+
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

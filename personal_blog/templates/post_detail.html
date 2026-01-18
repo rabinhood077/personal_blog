@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="row">
+    <div class="col">
+      <div class="post">
+        <div class="date">{{ post.published_at }}</div>
+        <h1>
+          <a href="#" class="text-decoration-none fst-italic">{{ post.title }}</a>
+        </h1>
+        <img src="{{ post.featured_image.url }}"
+             alt="{{ post.title }}"
+             width="600px"
+             height="350px" />
+        {% if request.user.is_authenticated %}
+          <div class="mt-2 my-2">
+            <a href="{% url 'post-update' post.pk %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'post-delete' post.pk %}" class="btn btn-danger">Delete</a>
+          </div>
+        {% endif %}
+        <div class="date author">
+          @{{ post.author.username }} | {{ post.category.name|title }}
+          Tags: {{ post.tag.all|join:", " }}
+        </div>
+        <p>{{ post.content|safe|linebreaksbr }}</p>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
